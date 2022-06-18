@@ -26,4 +26,4 @@ jobs:
         if: success()
         uses: actions-hub/docker@master
         with:
-          args: push yosaka/nvim:latest
+          args: push yosaka/nvim:$(TZ=UTC-9 date '+%Y%m%d')
