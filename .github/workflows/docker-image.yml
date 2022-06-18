@@ -20,7 +20,7 @@ jobs:
 
       - name: Build :latest
         if: success()
-        run: docker build -t yosaka/nvim:latest .
+        run: docker build -t yosaka/nvim:$(TZ=UTC-9 date '+%Y%m%d') .
 
       - name: Deploy :latest
         if: success()
