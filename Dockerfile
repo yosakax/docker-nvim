@@ -45,19 +45,24 @@ RUN npm install -g n
 RUN n latest
 
 ## create user
-RUN groupadd -g $GID $UNAME && \
-    useradd -m -s /bin/bash -u $UID -g $GID $UNAME && \
-    echo $UNAME:$UNAME | chpasswd && \
-    echo "$UNAME ALL=(ALL) NOPASSED:ALL" >> /etc/sudoers
+RUN useradd -m --uid ${UID} -d /home/${UNAME} --groups sudo  ${UNAME}
+RUN echo "${UNAME}:${UNAME}" | chpasswd
+RUN echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN chown -R ${UNAME}:${UNAME} /home/${UNAME}
+RUN usermod -aG sudo ${UNAME}
+RUN chsh -s /bin/bash ${UNAME}
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+RUN apt-get autoclean
 
-USER $UNAME
-WORKDIR /home/$UNAME
-ENV HOME /home/$UNAME
+USER ${UNAME}
+WORKDIR /home/${UNAME}
+ENV HOME /home/${UNAME}
 RUN ls -a
 ## install pyenv
 ENV PYENV_ROOT $HOME/.pyenv
 ENV PATH $PYENV_ROOT/bin/:$PATH
-RUN git clone https://github.com/pyenv/pyenv.git /home/$UNAME/.pyenv && \
+RUN git clone https://github.com/pyenv/pyenv.git /home/${UNAME}/.pyenv && \
     echo 'eval "$(pyenv init -)"' >> $HOME/.bashrc && \
     git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv &&\
     echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc && \
@@ -72,3 +77,5 @@ RUN pyenv global vim2 && pip install -U pip && pip install pynvim && \
 RUN curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 RUN git clone https://github.com/yosakax/dotfiles.git $HOME/.dotfiles
 RUN ls -l $HOME/ && mkdir -p $HOME/.config/nvim && ln -s $HOME/.dotfiles/init.vim $HOME/.config/nvim/init.vim
+
+RUN echo "PS1='\[\e[37;45m\] \u \[\e[35;47m\]\[\e[30;47m\] \W \[\e[37;46m\]\[\e[30m\] $(__git_ps1 "(%s)") \[\e[36;49m\]\[\e[0m\]\n $'" >> $HOME/.bashrc
