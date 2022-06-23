@@ -18,18 +18,19 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_REGISTRY_URL: docker.io
 
-      - name: Build :latest
-        if: success()
-        run: docker build -t yosaka/nvim:$(TZ=UTC-9 date '+%Y%m%d') .
-
-      - name: Deploy :date
-        if: success()
-        uses: actions-hub/docker@master
+      - name: Build and Push
+        id: docker_build
+        uses: docker/build-push-acation@v2
         with:
-          args: push yosaka/nvim:$(TZ=UTC-9 date '+%Y%m%d')
+          context: .
+          push: true
+          tags: yosaka/nvim:$(TZ=UTC-9 date '+%Y%m%d') yosaka/nvim:latest
+      # - name: Build :latest
+      #   if: success()
+      #   run: docker build -t yosaka/nvim:$(TZ=UTC-9 date '+%Y%m%d') .
 
-      - name: Deploy :latest
-        if: success()
-        uses: actions-hub/docker@master
-        with:
-          args: push yosaka/nvim:latest
+      # - name: Deploy :date
+      #   if: success()
+      #   uses: actions-hub/docker@master
+      #   with:
+      #     args: push yosaka/nvim:$(TZ=UTC-9 date '+%Y%m%d')
