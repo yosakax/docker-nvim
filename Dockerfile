@@ -63,6 +63,7 @@ RUN ls -a
 ENV PYENV_ROOT $HOME/.pyenv
 ENV PATH $PYENV_ROOT/bin/:$PATH
 RUN git clone https://github.com/pyenv/pyenv.git /home/${UNAME}/.pyenv && \
+    echo 'eval "$(pyenv init --path)"' >> $HOME/.bashrc && \
     echo 'eval "$(pyenv init -)"' >> $HOME/.bashrc && \
     git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv &&\
     echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc && \
