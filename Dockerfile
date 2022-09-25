@@ -78,4 +78,4 @@ RUN curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim
 RUN git clone https://github.com/yosakax/dotfiles.git $HOME/.dotfiles
 RUN ls -l $HOME/ && mkdir -p $HOME/.config/nvim && ln -s $HOME/.dotfiles/init.vim $HOME/.config/nvim/init.vim
 
-RUN echo "PS1='\[\e[37;45m\] \u \[\e[35;47m\]\[\e[30;47m\] \W \[\e[37;46m\]\[\e[30m\] $(__git_ps1 "(%s)") \[\e[36;49m\]\[\e[0m\]\n $'" >> $HOME/.bashrc
+RUN echo "PS1='\[\e[37;45m\] \u \[\e[35;47m\]\[\e[30;47m\] \W \[\e[37;46m\]\[\e[30m\] $(__git_ps1 "(%s)") \[\e[36;49m\]\[\e[0m\]\n $ '" >> $HOME/.bashrc
