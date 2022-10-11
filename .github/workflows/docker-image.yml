@@ -24,7 +24,7 @@ jobs:
         run: docker build -t yosaka/nvim:latest .
 
       - name: Deploy :latest
-        if success()
+        if: success()
         uses: actions-hub/docker@master
         with:
           args: push yosaka/nvim:latest
