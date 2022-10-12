@@ -57,6 +57,7 @@ RUN apt-get autoclean
 
 USER ${UNAME}
 WORKDIR /home/${UNAME}
+ENV LANG jp_JP.UTF-8
 ENV SHELL /bin/bash
 ENV HOME /home/${UNAME}
 RUN ls -a
