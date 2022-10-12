@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'Dockerfile'
+      - '.github/workflow/*.yml'
 
 jobs:
   push:

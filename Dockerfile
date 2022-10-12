@@ -57,6 +57,7 @@ RUN apt-get autoclean
 
 USER ${UNAME}
 WORKDIR /home/${UNAME}
+ENV SHELL /bin/bash
 ENV HOME /home/${UNAME}
 RUN ls -a
 ## install pyenv
