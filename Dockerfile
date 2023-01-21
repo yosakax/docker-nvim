@@ -79,12 +79,15 @@ RUN git clone https://github.com/pyenv/pyenv.git /home/${UNAME}/.pyenv && \
     echo 'eval "$(pyenv init -)"' >> $HOME/.bashrc && \
     git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv &&\
     echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc && \
-    pyenv install 2.7.17 && pyenv install 3.8.2 && \
-    pyenv virtualenv 2.7.17 vim2 && pyenv virtualenv 3.8.2 vim
+    pyenv install 3.8.2 && \
+    pyenv virtualenv 3.8.2 vim
 
-RUN pyenv global vim2 && pip install -U pip && pip install pynvim && \
-    pyenv global vim && pip install -U pip && pip install pynvim && \
-    pyenv global system
+RUN pyenv global vim && \
+    pyenv rehash
+# ENV PATH $PATH:/root/.pyenv/shims
+# RUN pyenv versions
+# RUN pip install -U pip && pip install pynvim
+# RUN pyenv global system
 
 ## install vim dependencies
 RUN curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
