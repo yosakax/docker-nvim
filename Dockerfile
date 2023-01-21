@@ -7,6 +7,7 @@ ARG UID=1000
 ARG GID=1000
 
 ENV DEBIAN_FRONTEND "noninteractive"
+
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
     python3-dev \
@@ -17,7 +18,8 @@ RUN apt-get install -y \
     locales \
     screen \
     htop \
-    sudo
+    sudo \
+    bash-completion
 RUN locale-gen ja_JP.UTF-8
 
 ## install dependencies for pyenv and neovim
@@ -35,6 +37,14 @@ RUN apt-get install -y \
     nodejs \
     npm
 
+## set locale
+RUN localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
+ENV LANG="ja_JP.UTF-8" \
+    LANGUAGE="ja_JP:ja" \
+    LC_ALL="ja_JP.UTF-8" \
+    TZ="Asia/Tokyo"
+
+
 ## install neovim
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:neovim-ppa/stable
@@ -42,7 +52,7 @@ RUN apt-get update && apt-get install -y neovim
 
 ## install n(virtual node environment)
 RUN npm install -g n
-RUN n latest
+RUN n stable && npm install -g neovim
 
 ## create user
 RUN useradd -m --uid ${UID} -d /home/${UNAME} --groups sudo  ${UNAME}
