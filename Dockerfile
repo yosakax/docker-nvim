@@ -17,7 +17,8 @@ RUN apt-get update && apt-get upgrade -y && \
     locales \
     screen \
     htop \
-    sudo
+    sudo \
+    bash-completion
 ENV TZ=Asia/Tokyo
 RUN locale-gen ja_JP.UTF-8
 
@@ -36,6 +37,14 @@ RUN apt-get install -y \
     nodejs \
     npm
 
+## set locale
+RUN localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
+ENV LANG="ja_JP.UTF-8" \
+    LANGUAGE="ja_JP:ja" \
+    LC_ALL="ja_JP.UTF-8" \
+    TZ="Asia/Tokyo"
+
+
 ## install neovim
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:neovim-ppa/stable
@@ -43,7 +52,7 @@ RUN apt-get update && apt-get install -y neovim
 
 ## install n(virtual node environment)
 RUN npm install -g n
-RUN n lts
+RUN n lts && npm install -g neovim
 
 ## create user
 RUN useradd -m --uid ${UID} -d /home/${UNAME} --groups sudo  ${UNAME}
@@ -75,6 +84,10 @@ RUN git clone https://github.com/pyenv/pyenv.git /home/${UNAME}/.pyenv && \
 
 RUN pyenv global vim && pip install -U pip && pip install pynvim && \
     pyenv global system
+# ENV PATH $PATH:/root/.pyenv/shims
+# RUN pyenv versions
+# RUN pip install -U pip && pip install pynvim
+# RUN pyenv global system
 
 ## install vim dependencies
 RUN curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
