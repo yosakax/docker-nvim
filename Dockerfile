@@ -7,8 +7,8 @@ ARG UID=1000
 ARG GID=1000
 
 ENV DEBIAN_FRONTEND "noninteractive"
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y \
     python3-dev \
     python3-tk \
     python3-pip \
@@ -18,6 +18,7 @@ RUN apt-get install -y \
     screen \
     htop \
     sudo
+ENV TZ=Asia/Tokyo
 RUN locale-gen ja_JP.UTF-8
 
 ## install dependencies for pyenv and neovim
@@ -42,7 +43,7 @@ RUN apt-get update && apt-get install -y neovim
 
 ## install n(virtual node environment)
 RUN npm install -g n
-RUN n latest
+RUN n lts
 
 ## create user
 RUN useradd -m --uid ${UID} -d /home/${UNAME} --groups sudo  ${UNAME}
@@ -69,11 +70,10 @@ RUN git clone https://github.com/pyenv/pyenv.git /home/${UNAME}/.pyenv && \
     echo 'eval "$(pyenv init -)"' >> $HOME/.bashrc && \
     git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv &&\
     echo 'eval "$(pyenv virtualenv-init -)"' >> $HOME/.bashrc && \
-    pyenv install 2.7.17 && pyenv install 3.8.2 && \
-    pyenv virtualenv 2.7.17 vim2 && pyenv virtualenv 3.8.2 vim
+    pyenv install 3.8.2 && \
+    pyenv virtualenv 3.8.2 vim
 
-RUN pyenv global vim2 && pip install -U pip && pip install pynvim && \
-    pyenv global vim && pip install -U pip && pip install pynvim && \
+RUN pyenv global vim && pip install -U pip && pip install pynvim && \
     pyenv global system
 
 ## install vim dependencies
