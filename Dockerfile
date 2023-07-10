@@ -83,7 +83,7 @@ RUN git clone https://github.com/pyenv/pyenv.git /home/${UNAME}/.pyenv && \
     pyenv virtualenv 3.8.2 vim
 
 RUN $HOME/.pyenv/versions/vim/bin/python -m pip install -U pip && \
-    $HOME/.pyenv/versions/vim/bin/python -m pip install pynvim && \
+    $HOME/.pyenv/versions/vim/bin/python -m pip install pynvim
 # ENV PATH $PATH:/root/.pyenv/shims
 # RUN pyenv versions
 # RUN pip install -U pip && pip install pynvim
