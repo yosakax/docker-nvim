@@ -1,9 +1,12 @@
 version: "3"
 services:
   app:
-    image: yosaka/nvim:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: yosaka/nvim:0.10.1
     command: /bin/bash
     volumes:
-      - .:/app
+      - .:/mnt
     tty: true
     stdin_open: true

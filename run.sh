@@ -1,3 +1,3 @@
 #!/bin/bash
 # example command
-docker run -it --rm --name yosaka_test yosaka/nvim:latest
+docker run -it --rm -v .:/mnt --name yosaka_test yosaka/nvim:0.10.1
