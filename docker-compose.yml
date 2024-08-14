@@ -4,7 +4,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: yosaka/nvim:0.10.1
     command: /bin/bash
     volumes:
       - .:/mnt

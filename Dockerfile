@@ -29,6 +29,7 @@ RUN apt-get install -y \
 
 
 WORKDIR /root
+######################change node version###########################
 RUN curl -sL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
 RUN bash nodesource_setup.sh &&  apt-get install nodejs -y
 
@@ -56,6 +57,7 @@ ENV LANG ja_JP.UTF-8
 ENV SHELL /bin/bash
 ENV HOME /home/${UNAME}
 
+######################change neovim version###########################
 RUN curl -OL https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz && \
     tar -zxvf nvim-linux64.tar.gz && \
     echo "export PATH="$PATH:/home/${UNAME}/nvim-linux64/bin"" >> /home/${UNAME}/.bashrc
