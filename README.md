@@ -1,22 +1,15 @@
 # docker-nvim
-devcontainer with neovim
 
-# how to pull from dockerhub
-```bash
-docker pull yosaka/nvim:latest
-```
+init.luaをまっさらな状態から作り直す際にするコンテナ。
 
-# how to clone
-```bash
-git clone https://github.com/yosakax/docker-nvim.git
-```
+## how to use
 
-# how to build
-```bash
-./build.sh
-```
+Dcokerfile上で，nodejsとpythonがインストール済みです。pythonはubuntuのシステムのものを使っているのに対して，nodeはバージョンを指定して入れているので，適宜変更してください。
 
-# how to run
+neovimも`https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz`をダウンロードしてきているので，任意のバージョンを入れる際はURLを変更してください。
+
+### コンテナの起動方法
+
 ```bash
-./run.sh
+docker compose up -d
 ```
